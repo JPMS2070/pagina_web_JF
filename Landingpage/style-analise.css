@@ -63,6 +63,17 @@
       color: #8ba8c4;
       line-height: 1.6;
     }
+    .footer{
+      background: #0d1f3c;
+      color: #fff;
+      padding: 2.5rem 1.5rem 2rem;
+    }
+    .footer-desc{
+      
+      font-size: 13px;
+      color: #8ba8c4;
+      line-height: 1.6;
+    }
 
     .benefits-row {
       display: flex;
