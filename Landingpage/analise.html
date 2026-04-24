@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style-analise.css">
   <link rel="shortcut icon" href="img/brasão jf.png" type="image/x-icon">
-  <title>Document</title>
+  <title>Análise</title>
 </head>
 
 <body>
@@ -66,8 +66,7 @@
     <div class="two-col">
       <div class="form-group">
         <label class="form-label">Email<span>*</span></label>
-        <input class="form-input" id="f-cpf" type="text" placeholder="@gmail.com"
-          oninput="maskCPF(this);updateProgress()">
+        <input class="form-input" id="f-email" type="email" placeholder="seu@gmail.com" oninput="updateProgress()">
       </div>
       <div class="form-group">
         <label class="form-label">Data de nascimento <span>*</span></label>
@@ -220,7 +219,11 @@
       <label class="form-label">Observações adicionais</label>
       <textarea class="form-input" id="f-obs" rows="3" placeholder="Descreva brevemente sua situação..."></textarea>
     </div>
-
+    <input type="checkbox" name="" id="f-check"> Declaro que li e concordo com os <a href="">termos de uso</a> e
+    política de
+    privacidade, autorizando o uso dos meus dados para análise do meu caso e contato.<br>
+    <input type="checkbox" name="" id=""> Autorizo o uso dos meus dados para envio de conteúdos, campanhas informativas
+    e anúncios em plataformas como Meta e Google.
     <button class="btn-analisar" id="btnAnalisar" onclick="analisar()">Calcular probabilidade →</button>
 
     <div class="resultado" id="resultado">
@@ -259,11 +262,6 @@
       el.classList.add('selected');
       updateProgress();
     }
-    function maskCPF(el) {
-      let v = el.value.replace(/\D/g, '').slice(0, 11);
-      v = v.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-      el.value = v;
-    }
     function maskPhone(el) {
       let v = el.value.replace(/\D/g, '').slice(0, 11);
       v = v.replace(/(\d{2})(\d)/, '($1) $2').replace(/(\d{5})(\d)/, '$1-$2');
@@ -276,7 +274,7 @@
       });
     }
     function updateProgress() {
-      const fields = ['f-nome', 'f-cpf', 'f-wpp', 'f-nasc', 'f-cidade', 'f-beneficio'];
+      const fields = ['f-nome', 'f-email', 'f-wpp', 'f-nasc', 'f-cidade', 'f-beneficio'];
       const filled = fields.filter(id => document.getElementById(id).value.trim() !== '').length;
       const pct = Math.round((filled / fields.length) * 100);
       document.getElementById('progressFill').style.width = pct + '%';
@@ -307,7 +305,7 @@
     function coletarDados() {
       return {
         nome: document.getElementById('f-nome').value,
-        cpf: document.getElementById('f-cpf').value,
+        email: document.getElementById('f-email').value,
         nascimento: document.getElementById('f-nasc').value,
         whatsapp: document.getElementById('f-wpp').value,
         cidade: document.getElementById('f-cidade').value,
@@ -356,7 +354,7 @@
         }
         header.className = 'resultado-header ' + cls;
         msgEl.textContent = msg;
-        const numero = '5511999999999';
+        const numero = '(88)99368-9422';
         const texto = encodeURIComponent(`Olá! Fiz a análise no site e minha probabilidade foi de ${pct}% para o benefício de ${benef}. Quero saber mais.`);
         document.getElementById('btn-wpp').href = `https://wa.me/${numero}?text=${texto}`;
         res.classList.add('show');
