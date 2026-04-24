@@ -1,0 +1,27 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Garante que bordas e padding não alterem o tamanho total */
+
+}
+
+header{
+    background-color: #2b4465;
+}
+#fundo{
+    background-color: green;
+}
+#logo{
+    width: 100px;
+    height: 100px;
+}
+.menu-btn{
+    background: none;
+    color: white;
+    border: none;
+    transition: 0.2s;
+    text-decoration: none;
+}
+.menu-btn:hover {
+    color:rgb(214, 214, 214);
+}

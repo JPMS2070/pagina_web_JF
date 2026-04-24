@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style-analise.css">
+  <link rel="shortcut icon" href="img/brasão jf.png" type="image/x-icon">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <header class="hero">
+    <div class="logo-badge"><img src="img/brasão jf.png" alt="" srcset="" width="90px"></div>
+    <div class="escritorio-nome">Advocacia João Filho</div>
+    <div class="escritorio-sub">Direito Previdenciário</div>
+    <div class="hero-headline">Seu direito pode estar esperando por você</div>
+    <div class="hero-desc">Salário-maternidade, BPC/Loas e auxílio-acidente — faça sua análise gratuita agora.</div>
+  </header>
+
+  <div class="benefits-row">
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1a5cad" stroke-width="2">
+          <path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z" />
+        </svg>
+      </div>
+      <div class="benefit-title">Salário-Maternidade</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1a5cad" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 8v4l3 3" />
+        </svg>
+      </div>
+      <div class="benefit-title">BPC / Loas</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1a5cad" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+      </div>
+      <div class="benefit-title">Auxílio-Acidente</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section">
+    <div class="section-label">Análise gratuita</div>
+    <div class="section-title">Verifique seu direito</div>
+    <div class="section-desc">Preencha os dados abaixo. Em segundos, saberá sua probabilidade de aprovação.</div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Nome completo <span>*</span></label>
+      <input class="form-input" id="f-nome" type="text" placeholder="Seu nome" oninput="updateProgress()">
+    </div>
+
+    <div class="two-col">
+      <div class="form-group">
+        <label class="form-label">Email<span>*</span></label>
+        <input class="form-input" id="f-cpf" type="text" placeholder="@gmail.com"
+          oninput="maskCPF(this);updateProgress()">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Data de nascimento <span>*</span></label>
+        <input class="form-input" id="f-nasc" type="date" oninput="updateProgress()">
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="form-group">
+        <label class="form-label">WhatsApp <span>*</span></label>
+        <input class="form-input" id="f-wpp" type="tel" placeholder="(00) 00000-0000" maxlength="15"
+          oninput="maskPhone(this);updateProgress()">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Cidade / UF <span>*</span></label>
+        <input class="form-input" id="f-cidade" type="text" placeholder="Cidade - CE" oninput="updateProgress()">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Benefício de interesse <span>*</span></label>
+      <select class="form-input form-select" id="f-beneficio" onchange="toggleFields();updateProgress()">
+        <option value="">Selecione...</option>
+        <option value="maternidade">Salário-Maternidade</option>
+        <option value="bpc">BPC / Loas</option>
+        <option value="acidente">Auxílio-Acidente</option>
+      </select>
+    </div>
+
+    <div id="fields-maternidade" style="display:none">
+      <div class="form-group">
+        <label class="form-label">Você trabalhou com carteira assinada ou como MEI? <span>*</span></label>
+        <div class="radio-group" id="rg-vinculo">
+          <div class="radio-option" onclick="selectRadio('vinculo','sim',this)">
+            <div class="radio-dot">
+              <div class="radio-dot-inner"></div>
+            </div>Sim
+          </div>
+          <div class="radio-option" onclick="selectRadio('vinculo','nao',this)">
+            <div class="radio-dot">
+              <div class="radio-dot-inner"></div>
+            </div>Não (trabalho informal/rural)
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Data prevista ou ocorrida do parto</label>
+        <input class="form-input" id="f-parto" type="date">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Quantas contribuições ao INSS você fez? <span>*</span></label>
+        <select class="form-input form-select" id="f-contrib">
+          <option value="">Selecione...</option>
+          <option value="0">Nenhuma</option>
+          <option value="1-9">1 a 9</option>
+          <option value="10+">10 ou mais</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="fields-bpc" style="display:none">
+      <div class="form-group">
+        <label class="form-label">Possui deficiência ou doença grave? <span>*</span></label>
+        <div class="radio-group" id="rg-defic">
+          <div class="radio-option" onclick="selectRadio('defic','sim',this)">
+            <div class="radio-dot">
+              <div class="radio-dot-inner"></div>
+            </div>Sim
+          </div>
+          <div class="radio-option" onclick="selectRadio('defic','nao',this)">
+            <div class="radio-dot">
+              <div class="radio-dot-inner"></div>
+            </div>Não (idoso 65+)
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Renda familiar mensal</label>
+        <select class="form-input form-select" id="f-renda">
+          <option value="">Selecione...</option>
+          <option value="ate_sm">Até R$ 1.518 (1 salário)</option>
+          <option value="ate_2sm">R$ 1.519 a R$ 3.036</option>
+          <option value="acima">Acima de R$ 3.036</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Quantas pessoas vivem na mesma casa?</label>
+        <input class="form-input" id="f-membros" type="number" min="1" max="20" placeholder="Ex: 4">
+      </div>
+    </div>
+
+    <div id="fields-acidente" style="display:none">
+      <div class="form-group">
+        <label class="form-label">Ocorreu acidente de trabalho? <span>*</span></label>
+        <div class="radio-group" id="rg-acidente">
+          <div class="radio-option" onclick="selectRadio('acidente_t','sim',this)">
+            <div class="radio-dot">
+              <div class="radio-dot-inner"></div>
+            </div>Sim, com CAT emitida
+          </div>
+          <div class="radio-option" onclick="selectRadio('acidente_t','semcat',this)">
+            <div class="radio-dot">
+              <div class="radio-dot-inner"></div>
+            </div>Sim, sem CAT
+          </div>
+          <div class="radio-option" onclick="selectRadio('acidente_t','nao',this)">
+            <div class="radio-dot">
+              <div class="radio-dot-inner"></div>
+            </div>Doença ocupacional
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Ficou com sequela permanente?</label>
+        <div class="radio-group" id="rg-sequela">
+          <div class="radio-option" onclick="selectRadio('sequela','sim',this)">
+            <div class="radio-dot">
+              <div class="radio-dot-inner"></div>
+            </div>Sim
+          </div>
+          <div class="radio-option" onclick="selectRadio('sequela','nao',this)">
+            <div class="radio-dot">
+              <div class="radio-dot-inner"></div>
+            </div>Não / Não sei
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Quantos meses de contribuição ao INSS?</label>
+        <select class="form-input form-select" id="f-contrib-ac">
+          <option value="">Selecione...</option>
+          <option value="0">Menos de 12</option>
+          <option value="12+">12 ou mais</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Como nos encontrou?</label>
+      <select class="form-input form-select" id="f-origem">
+        <option value="">Selecione...</option>
+        <option value="instagram">Instagram</option>
+        <option value="indicacao">Indicação</option>
+        <option value="google">Google</option>
+        <option value="outro">Outro</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Observações adicionais</label>
+      <textarea class="form-input" id="f-obs" rows="3" placeholder="Descreva brevemente sua situação..."></textarea>
+    </div>
+
+    <button class="btn-analisar" id="btnAnalisar" onclick="analisar()">Calcular probabilidade →</button>
+
+    <div class="resultado" id="resultado">
+      <div class="resultado-header" id="res-header">
+        <div class="resultado-pct" id="res-pct">--</div>
+        <div class="resultado-label">de probabilidade de aprovação</div>
+      </div>
+      <div class="resultado-body">
+        <div class="resultado-msg" id="res-msg"></div>
+        <a class="btn-wpp" id="btn-wpp" href="#" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#0d1f3c">
+            <path
+              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+            <path
+              d="M11.998 1.998C6.479 1.998 1.998 6.479 1.998 11.998c0 1.76.46 3.413 1.263 4.846L1.998 21.998l5.287-1.386a9.944 9.944 0 004.713 1.184c5.519 0 10-4.481 10-10s-4.481-10-10-10zm0 18.182a8.16 8.16 0 01-4.158-1.138l-.298-.177-3.088.81.822-3.011-.195-.308a8.18 8.18 0 01-1.267-4.358c0-4.524 3.684-8.208 8.208-8.208 4.523 0 8.207 3.684 8.207 8.208 0 4.523-3.684 8.182-8.208 8.182z" />
+          </svg>
+          Falar com o advogado agora
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="hero">
+
+  </footer>
+
+  <script>
+    const radios = {};
+    function selectRadio(group, val, el) {
+      radios[group] = val;
+      const parent = el.closest('.radio-group');
+      parent.querySelectorAll('.radio-option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      updateProgress();
+    }
+    function maskCPF(el) {
+      let v = el.value.replace(/\D/g, '').slice(0, 11);
+      v = v.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+      el.value = v;
+    }
+    function maskPhone(el) {
+      let v = el.value.replace(/\D/g, '').slice(0, 11);
+      v = v.replace(/(\d{2})(\d)/, '($1) $2').replace(/(\d{5})(\d)/, '$1-$2');
+      el.value = v;
+    }
+    function toggleFields() {
+      const b = document.getElementById('f-beneficio').value;
+      ['maternidade', 'bpc', 'acidente'].forEach(id => {
+        document.getElementById('fields-' + id).style.display = b === id ? 'block' : 'none';
+      });
+    }
+    function updateProgress() {
+      const fields = ['f-nome', 'f-cpf', 'f-wpp', 'f-nasc', 'f-cidade', 'f-beneficio'];
+      const filled = fields.filter(id => document.getElementById(id).value.trim() !== '').length;
+      const pct = Math.round((filled / fields.length) * 100);
+      document.getElementById('progressFill').style.width = pct + '%';
+    }
+    function calcProbabilidade() {
+      const b = document.getElementById('f-beneficio').value;
+      let score = 30;
+      if (b === 'maternidade') {
+        if (radios['vinculo'] === 'sim') score += 35;
+        const contrib = document.getElementById('f-contrib').value;
+        if (contrib === '10+') score += 30;
+        else if (contrib === '1-9') score += 10;
+      } else if (b === 'bpc') {
+        if (radios['defic'] === 'sim') score += 20;
+        const renda = document.getElementById('f-renda').value;
+        if (renda === 'ate_sm') score += 40;
+        else if (renda === 'ate_2sm') score += 15;
+        const membros = parseInt(document.getElementById('f-membros').value) || 1;
+        if (membros >= 3) score += 10;
+      } else if (b === 'acidente') {
+        if (radios['acidente_t'] === 'sim') score += 25;
+        if (radios['sequela'] === 'sim') score += 30;
+        const contrib = document.getElementById('f-contrib-ac').value;
+        if (contrib === '12+') score += 15;
+      }
+      return Math.min(score, 95);
+    }
+    function coletarDados() {
+      return {
+        nome: document.getElementById('f-nome').value,
+        cpf: document.getElementById('f-cpf').value,
+        nascimento: document.getElementById('f-nasc').value,
+        whatsapp: document.getElementById('f-wpp').value,
+        cidade: document.getElementById('f-cidade').value,
+        beneficio: document.getElementById('f-beneficio').value,
+        origem: document.getElementById('f-origem').value,
+        observacoes: document.getElementById('f-obs').value,
+        dados_extras: {
+          vinculo_emprego: radios['vinculo'] || null,
+          deficiencia: radios['defic'] || null,
+          acidente_trabalho: radios['acidente_t'] || null,
+          sequela: radios['sequela'] || null,
+          contribuicoes: document.getElementById('f-contrib').value || document.getElementById('f-contrib-ac').value || null,
+          renda_familiar: document.getElementById('f-renda').value || null,
+          membros_familia: document.getElementById('f-membros').value || null,
+          data_parto: document.getElementById('f-parto').value || null,
+        }
+      };
+    }
+    function analisar() {
+      const nome = document.getElementById('f-nome').value.trim();
+      const wpp = document.getElementById('f-wpp').value.trim();
+      const benef = document.getElementById('f-beneficio').value;
+      if (!nome || !wpp || !benef) {
+        alert('Preencha ao menos nome, WhatsApp e benefício de interesse.');
+        return;
+      }
+      const btn = document.getElementById('btnAnalisar');
+      btn.disabled = true;
+      btn.textContent = 'Calculando...';
+      setTimeout(() => {
+        const pct = calcProbabilidade();
+        const dados = coletarDados();
+        dados.probabilidade = pct;
+        const res = document.getElementById('resultado');
+        const header = document.getElementById('res-header');
+        const pctEl = document.getElementById('res-pct');
+        const msgEl = document.getElementById('res-msg');
+        pctEl.textContent = pct + '%';
+        let cls, msg;
+        if (pct >= 70) {
+          cls = 'alta'; msg = 'Ótimas notícias! Com base nos seus dados, você apresenta alta chance de ser aprovado(a). Entre em contato agora para iniciarmos seu processo sem burocracia.';
+        } else if (pct >= 45) {
+          cls = 'media'; msg = 'Você tem boas chances, mas existem pontos que precisamos avaliar em detalhes. Nosso time pode identificar documentação complementar para fortalecer seu caso.';
+        } else {
+          cls = 'baixa'; msg = 'Sua situação exige uma análise mais cuidadosa. Não desanime — muitos casos negados são revertidos na esfera judicial. Fale conosco para entender suas opções.';
+        }
+        header.className = 'resultado-header ' + cls;
+        msgEl.textContent = msg;
+        const numero = '5511999999999';
+        const texto = encodeURIComponent(`Olá! Fiz a análise no site e minha probabilidade foi de ${pct}% para o benefício de ${benef}. Quero saber mais.`);
+        document.getElementById('btn-wpp').href = `https://wa.me/${numero}?text=${texto}`;
+        res.classList.add('show');
+        btn.disabled = false;
+        btn.textContent = 'Recalcular →';
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+        console.log('LEAD CAPTURADO:', JSON.stringify(dados, null, 2));
+      }, 1200);
+    }
+  </script>
+</body>
+
+</html>
+
+
+
+
+
+<!-- Código IA-->
