@@ -14,6 +14,7 @@
 
 
   <header class="hero">
+    <div class="campo-voltar"><a href="index.html"><img src="img/icon.png" alt="" srcset=""></a></div>
     <div class="logo-badge"><img src="img/brasão jf.png" alt="" srcset="" width="90px"></div>
     <div class="escritorio-nome">Advocacia João Filho</div>
     <div class="escritorio-sub">Direito Previdenciário</div>
@@ -220,12 +221,21 @@
       <label class="form-label">Observações adicionais</label>
       <textarea class="form-input" id="f-obs" rows="3" placeholder="Descreva brevemente sua situação..."></textarea>
     </div>
-    <input type="checkbox" name="" id="f-check"> Declaro que li e concordo com os <a href="">termos de uso</a> e
-    política de
-    privacidade, autorizando o uso dos meus dados para análise do meu caso e contato.<br>
-    <input type="checkbox" name="" id="f-check-ads"> Autorizo o uso dos meus dados para envio de conteúdos, campanhas
-    informativas
-    e anúncios em plataformas como Meta e Google.
+    <!---->
+    <label class="check-label" for="f-check">
+      <input type="checkbox" name="" id="f-check"> Declaro que li e concordo com os <a href="">termos
+        de uso</a>política de
+      privacidade, autorizando o uso dos meus dados para análise do meu caso e contato.
+    </label>
+
+    <label class="check-label" for="f-check-ads">
+      <input type="checkbox" id="f-check-ads">
+      Autorizo o uso dos meus dados para envio de conteúdos, campanhas
+      informativas
+      e anúncios em plataformas como Meta e Google.
+
+    </label>
+    <!---->
     <button class="btn-analisar" id="btnAnalisar" onclick="analisar()">Calcular probabilidade →</button>
 
     <div class="resultado" id="resultado">

@@ -18,27 +18,25 @@
     <header class="">
         <nav class="navbar navbar-expand-lg navbar-dark">
             <img class="ms-5" id="logo" src="img/brasão jf.png" alt="" srcset="">
-            <div class="collapse" id="navbarToggleExternalContent">
-                <div class="bg-dark p-4">
-                    <h5 class="text-white h4">Collapsed content</h5>
-                    <span class="text-muted">Toggleable via the navbar brand.</span>
-                </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+                ☰
+            </button>
+            <div class="collapse navbar-collapse" id="menu">
+                <ul class="d-flex justify-content-end align-items-center list-unstyled mb-0 py-3 ms-auto">
+                    <li><button class="nav-item menu-btn m-2 ">Início</button></li>
+                    <li><button class="nav-item menu-btn m-2 ">Direitos</button></li>
+                    <li><button class="nav-item menu-btn m-2 ">Atendimento</button></li>
+                    <li><a href="analise.html" class="nav-item menu-btn m-2" target="_blank">Consulta</a></li>
+                    <li><button class="menu-btn m-2">Vídeos</button></li>
+                    <li class="me-2">
+                        <a href="#" class="btn btn-success px-4">
+                            Fale Conosco
+                        </a>
+                    </li>
+                </ul>
             </div>
-            <div class="w-100">
-                <div class="collapse" id="navbarToggleExternalContent">
-                    <div class="bg-dark p-4">
-                        <h5 class="text-white h4">Collapsed content</h5>
-                        <span class="text-muted">Toggleable via the navbar brand.</span>
-                    </div>
-                </div>
-                <div class="container-fluid">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                </div>
-                <ul class="d-flex justify-content-end align-items-center list-unstyled mb-0 py-3">
+            <!-- <div classe="collapse navbar-collapse" id="menu">
+                <ul class="navbar-nav ms-auto">
                     <li><button class="menu-btn m-2 ">Início</button></li>
                     <li><button class="menu-btn m-2 ">Direitos</button></li>
                     <li><button class="menu-btn m-2 ">Atendimento</button></li>
@@ -50,7 +48,9 @@
                         </a>
                     </li>
                 </ul>
-            </div>
+            </div> -->
+
+
     </header>
 
 
