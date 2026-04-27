@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style-analise.css">
   <link rel="shortcut icon" href="img/brasão jf.png" type="image/x-icon">
   <title>Análise</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
@@ -222,7 +223,8 @@
     <input type="checkbox" name="" id="f-check"> Declaro que li e concordo com os <a href="">termos de uso</a> e
     política de
     privacidade, autorizando o uso dos meus dados para análise do meu caso e contato.<br>
-    <input type="checkbox" name="" id=""> Autorizo o uso dos meus dados para envio de conteúdos, campanhas informativas
+    <input type="checkbox" name="" id="f-check-ads"> Autorizo o uso dos meus dados para envio de conteúdos, campanhas
+    informativas
     e anúncios em plataformas como Meta e Google.
     <button class="btn-analisar" id="btnAnalisar" onclick="analisar()">Calcular probabilidade →</button>
 
@@ -245,6 +247,7 @@
       </div>
     </div>
   </div>
+  <div class="toast" id="toast">Dados salvos!</div>
 
   <footer class="footer">
     <img src="img/brasão jf.png" alt="" srcset="" width="50px">
@@ -257,6 +260,15 @@
   </footer>
 
   <script>
+    const { createClient } = supabase
+    const sb = createClient(
+      'https://rtrplhyjutvasxezgvkc.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ0cnBsaHlqdXR2YXN4ZXpndmtjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcyNDQzMDcsImV4cCI6MjA5MjgyMDMwN30.OJpkvfJ9jG0kZ3Le_nO9abS-Gt73QglMXSQjTjcGJCI' // chave anon completa
+    )
+    async function salvarLead(dados) {
+      const { error } = await sb.from('leads').insert([dados])
+      if (error) console.error('Erro ao salvar:', error)
+    }
     const radios = {};
     function selectRadio(group, val, el) {
       radios[group] = val;
@@ -315,6 +327,8 @@
         beneficio: document.getElementById('f-beneficio').value,
         origem: document.getElementById('f-origem').value,
         observacoes: document.getElementById('f-obs').value,
+        consentimento_lgpd: document.getElementById('f-check').checked,
+        consentimento_ads: document.getElementById('f-check-ads').checked,
         dados_extras: {
           vinculo_emprego: radios['vinculo'] || null,
           deficiencia: radios['defic'] || null,
@@ -331,14 +345,21 @@
       const nome = document.getElementById('f-nome').value.trim();
       const wpp = document.getElementById('f-wpp').value.trim();
       const benef = document.getElementById('f-beneficio').value;
+      const check1 = document.getElementById('f-check').checked;
+      const check2 = document.getElementById('f-check-ads').checked;
       if (!nome || !wpp || !benef) {
         alert('Preencha ao menos nome, WhatsApp e benefício de interesse.');
         return;
       }
+      if (!check1 || !check2) {
+        alert('Você precisa aceitar os termos de uso para continuar.');
+        return;
+      }
+
       const btn = document.getElementById('btnAnalisar');
       btn.disabled = true;
       btn.textContent = 'Calculando...';
-      setTimeout(() => {
+      setTimeout(async () => {
         const pct = calcProbabilidade();
         const dados = coletarDados();
         dados.probabilidade = pct;
@@ -366,6 +387,7 @@
         const toast = document.getElementById('toast');
         toast.classList.add('show');
         setTimeout(() => toast.classList.remove('show'), 3000);
+        await salvarLead(dados);
         console.log('LEAD CAPTURADO:', JSON.stringify(dados, null, 2));
       }, 1200);
     }
